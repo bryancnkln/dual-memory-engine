@@ -34,7 +34,9 @@ The intention → biases the next generation, creating a feedback loop of ever�
 TL;DR
 We’ve built a little ecosystem where energy is the currency, flow is the movement between memory buffers, and states are the operational phases that let that currency be spent, saved, or reinvested. It’s a compact, elegant metaphor that captures the whole feedback loop in a single, memorable phrase.
 
----
+UnifiedMemory already gives you a single source of truth that can be dumped to disk.
+Distillation + memory injection produces a mini‑agent that already “knows” the teacher’s recent context.
+The JSON‑based cartridge is completely hot‑swappable—just drop it into another process, load it, and the agent instantly resumes with the same knowledge base and goal vector.
 
 ## Table of Contents
 1. [Overview](#overview)  
