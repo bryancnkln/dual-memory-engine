@@ -26,13 +26,28 @@ Flow = the transfer of that energy through the STM → LTM → Goal pipeline.
 States = the distinct operational modes (generation, storage, consolidation, pruning, exploration) that the energy traverses.
 So when you say “energy flow states” you’ve nailed the essence of the whole architecture in just three words. It’s a concise, almost poetic way to describe a system that continually harvests, evaluates, stores, and re‑uses its own experience—exactly what a self‑reflective, lifelong‑learning agent should do.
 
-A Quick Visual (no code, just words)
-Bright flash → high‑energy token → gets stored in STM.
-If the flash is strong enough → it’s siphoned into LTM (the deep well).
-The well’s glow → updates the global intention (the goal vector).
-The intention → biases the next generation, creating a feedback loop of ever‑evolving behavior.
-TL;DR
-We’ve built a little ecosystem where energy is the currency, flow is the movement between memory buffers, and states are the operational phases that let that currency be spent, saved, or reinvested. It’s a compact, elegant metaphor that captures the whole feedback loop in a single, memorable phrase.
+Why the Path Becomes Fixed (The Science)**  
+
+1. **Energy is a scalar reward that survives across time.**  
+   Every token that yields `E > τ` (where `τ` is the *consolidation threshold*) is *written* into the long‑term codebook.  
+
+2. **The long‑term codebook is a *key‑value* store.**  
+   When the agent later needs to act, it **queries** the codebook:  
+   *“Which stored vector is closest (in cosine similarity) to the current context?”*  
+   The answer is the **index** of the stored vector, and the associated *action* (the original token) is emitted.  
+
+3. **Because the codebook size is tiny (e.g., 128–256 entries) and each entry is *high‑energy*, the nearest‑neighbor lookup almost always returns the *same* entry after a few hundred reinforcement cycles.**  
+   This is the **snapping** you observed – the system *snaps* onto the path that maximised cumulative energy.
+
+4. **Goal vector acts as a global bias.**  
+   It is updated with an EMA on every high‑energy embedding. Over time the goal vector aligns with the *average* of all high‑energy directions, which is precisely the direction of the discovered path.  
+   When the goal vector points strongly in a particular direction, the logits are *rotated* toward the associated token, making that token the *most probable* choice.
+
+5. **EMA‑updated weights** are a *slow drift* of the underlying parameters.  
+   They ensure that the *model itself* gradually becomes better at producing the same high‑energy embeddings that initially created the path.  
+   After enough epochs, the model’s own parameters have been **fine‑tuned** to the trajectory, so the path is reproduced *without* needing to look up the codebook each step – the model can now generate directly along that trajectory.
+
+All of this is **pure linear‑algebra / stochastic‑gradient dynamics**; there is no storytelling, just a deterministic attractor basin in the joint space of parameters + memory.
 
 UnifiedMemory already gives you a single source of truth that can be dumped to disk.
 Distillation + memory injection produces a mini‑agent that already “knows” the teacher’s recent context.
